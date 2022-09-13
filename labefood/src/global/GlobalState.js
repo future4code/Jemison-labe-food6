@@ -1,5 +1,5 @@
-import GlobalContext from './GlobalContext'
-import React from 'react'
+// import GlobalContext from './GlobalContext'
+// import React from 'react'
 
 const GlobalState = () => {
 

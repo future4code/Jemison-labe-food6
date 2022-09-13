@@ -1,14 +1,14 @@
 import React from "react";
 import GlobalStyles from './globalStyles'
-import Rotas from './routes/Routes'
-import GlobalState from "./global/GlobalState";
+import Rotas from './route/Rotas'
+// import GlobalState from "./global/GlobalState";
 
 function App() {
   return (
-    <GlobalState>
+    <div>
       <Rotas/>
       <GlobalStyles/>
-    </GlobalState>
+    </div>
   );
 }
 
