@@ -3,7 +3,7 @@ import { Box, Typography } from '@mui/material'
 
 const TituloDivisor = ({ texto, pad}) => {
     return (
-        <Box sx={{ width: '100%', mt:6, mb:2 }} >
+        <Box sx={{ width: '100%', mt:3, mb:2 }} >
             <Typography fontSize='16px' color='#000' fontWeight='500' lineHeight='1.15' padding={pad} sx={{ letterSpacing: -0.4 }}>
                 {texto}
             </Typography>
