@@ -19,7 +19,7 @@ function Rotas() {
         <Route path='/cadastroEndereco' element={<CadastroEndereco />} />
         <Route path='/carrinho' element={<Carrinho />} />
         <Route path='/pedidoAndamento' element={<PedidoAndamento />} />
-        <Route path='/restaurante' element={<Restaurante />} />
+        <Route path='/restaurante/:id' element={<Restaurante />} />
       </Routes>
     </BrowserRouter>
   )
