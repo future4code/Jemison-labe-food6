@@ -28,7 +28,7 @@ const CardPedido = ({ photo, titulo, descricao, valor, quant, add }) => {
     };
 
     return (
-        <Card maxWidth='sm' sx={{ borderRadius: '8px', my: '12px', boxShadow: '0px 1px 2px 1px rgba(0,0,0,0.25)' }}>
+        <Card sx={{ borderRadius: '8px', my: '12px', boxShadow: '0px 1px 2px 1px rgba(0,0,0,0.25)' }}>
             <CardActionArea sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <CardMedia component="img" sx={{ width: '97px', height: '128px', flex: 1 }} image={photo} alt="burger" />
                 <CardContent sx={{ flex: 2, py: 0 }}>

@@ -1,30 +1,45 @@
 import React, { useState, useEffect } from 'react'
+import { ArrowBackIos } from '@mui/icons-material'
 import { useNavigate } from 'react-router-dom'
 import { Box, Container } from '@mui/material'
+import { BASE_URL } from '../../constants/url'
+import useProtectedPage from '../../hooks/useProtectedPage'
+import ButtonCustom from '../../components/ButtonCustom'
 import Titulo from '../../components/Titulo'
 import Input from '../../components/Input'
-import ButtonCustom from '../../components/ButtonCustom'
-import useProtectedPage from '../../hooks/useProtectedPage'
-import { BASE_URL } from '../../constants/url'
 import axios from 'axios'
-import { ArrowBackIos } from '@mui/icons-material'
 
 const EditPerfil = () => {
     useProtectedPage()
     const navigate = useNavigate()
-    const goToFeed = (navigate) => { navigate('/feed') }
+    const goToPerf = (navigate) => { navigate('/perfil') }
+
+    const token = localStorage.getItem('token')
 
     const [values, setValues] = useState({
-        nome: '',
+        name: '',
         email: '',
         cpf: '',
     })
 
-    const adressConfig = () => {
-        const token = localStorage.getItem('token')
+    console.log(values)
 
-        axios.put(`${BASE_URL}/address`, {
-            "name": values.nome,
+    useEffect(() => {
+        axios.get(`${BASE_URL}/profile`, {
+            headers: {
+                auth: token
+            }
+        }).then((res) => {
+            setValues(res.data.user)
+            // console.log(res.data.user)
+        }).catch((error) => {
+            console.log(error.message)
+        })
+    }, [])
+
+    const adressConfig = () => {
+            axios.put(`${BASE_URL}/profile`, {
+            "name": values.name,
             "email": values.email,
             "cpf": values.cpf,
         }, {
@@ -33,7 +48,7 @@ const EditPerfil = () => {
             }
         })
             .then((response) => {
-                goToFeed(navigate)
+                goToPerf(navigate)
             }).catch((error) => {
                 console.log(error.response.data)
             })
@@ -55,7 +70,7 @@ const EditPerfil = () => {
     return (
         <Container maxWidth='sm' sx={{ height: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <Box sx={{ width: '100%', display: 'flex', justifyContent: 'space-evenly', alignItems: 'center' }}>
-                <ArrowBackIos />
+                <ArrowBackIos onClick={() => goToPerf(navigate)} />
                 <Titulo texto={"Editar"} />
             </Box>
             <Box sx={{ mb: 1, width: '100vw', borderTop: 1, color: '#DDD' }} />
@@ -64,7 +79,7 @@ const EditPerfil = () => {
                     value={values.name}
                     label='Nome'
                     placeholder='Nome e sobrenome'
-                    onChange={handleChange('nome')}
+                    onChange={handleChange('name')}
                 />
                 <Input
                     value={values.email}

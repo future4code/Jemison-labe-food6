@@ -12,7 +12,9 @@ import axios from 'axios'
 const EditEndereco = () => {
     useProtectedPage()
     const navigate = useNavigate()
-    const goToFeed = (navigate) => { navigate('/feed') }
+    const goToPerf = (navigate) => { navigate('/perfil') }
+
+    const token = localStorage.getItem('token')
 
     const [values, setValues] = useState({
         street: '',
@@ -23,9 +25,21 @@ const EditEndereco = () => {
         complement: '',
     })
 
-    const adressConfig = () => {
-        const token = localStorage.getItem('token')
+    console.log(values)
 
+    useEffect(() => {
+        axios.get(`${BASE_URL}/profile/address`, {
+            headers: {
+                auth: token
+            }
+        }).then((res) => {
+            setValues(res.data.address)
+        }).catch((error) => {
+            console.log(error.message)
+        })
+    }, [])
+
+    const adressConfig = () => {
         axios.put(`${BASE_URL}/address`, {
             "street": values.street,
             "number": values.number,
@@ -39,7 +53,7 @@ const EditEndereco = () => {
             }
         })
             .then((response) => {
-                goToFeed(navigate)
+                goToPerf(navigate)
             }).catch((error) => {
                 console.log(error.response.data)
             })
@@ -61,7 +75,7 @@ const EditEndereco = () => {
     return (
         <Container maxWidth='sm' sx={{ height: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <Box sx={{ width: '100%', display: 'flex', justifyContent: 'space-evenly', alignItems: 'center' }}>
-                <ArrowBackIos on />
+                <ArrowBackIos onClick={() => goToPerf(navigate)} />
                 <Titulo texto={"Endereço"} />
             </Box>
             <Box sx={{ mb: 1, width: '100vw', borderTop: 1, color: '#DDD' }} />
