@@ -2,7 +2,7 @@ import { InputControl } from './stylesInput'
 
 
 
-const Input = ({ type, text, name, placeholder, handleOnChange, required, value }) => {
+const Input = ({ type, text, name, placeholder, onChange, required, value }) => {
     return (
 
         <InputControl>
@@ -13,7 +13,7 @@ const Input = ({ type, text, name, placeholder, handleOnChange, required, value 
                 id={name}
                 placeholder={placeholder}
                 required={required}
-                onChange={handleOnChange}
+                onChange={onChange}
                 value={value}
                 
             />
