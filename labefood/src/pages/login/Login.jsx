@@ -26,19 +26,25 @@ const Login = ({ type, text, name, placeholder, onChange, required, value, }) =>
     navigate('/signup')
   }
 
-  const [body, handleOnChange, clear] = useForm({ email: "", password: "" })
+  const [ body, handleOnChange, clear] = useForm({ email: "", password: "" })
 
   const loginOk = (e) => {
     e.preventDefault()
-    axios.post(`${BASE_URL}login`, body)
-      .then((response) => {
-        localStorage.setItem("token", response.data.token)
-        goToFeed()
-        clear();
-      }).catch((error) => {
-        console.log("Deu ruim!", error.response.data.message)
-        alert(error.response.data.message);
-      })
+    console.log(body)
+    axios.post(`${BASE_URL}/login`, body,{
+      headers: {
+
+        'Content-Type': 'application/json'
+      }
+
+    }).then((response) => {
+      localStorage.setItem("token", response.data.token)
+      goToFeed();
+      clear();
+    }).catch((error) => {
+      console.log("Deu ruim!", error.response.data.message)
+      alert(error.response.data.message);
+    })
 
   }
 
