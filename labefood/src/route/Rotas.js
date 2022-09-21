@@ -7,6 +7,9 @@ import CadastroEndereco from '../pages/cadastroEndereco/CadastroEndereco'
 import Carrinho from '../pages/carrinho/Carrinho'
 import PedidoAndamento from '../pages/pedidoAndamento/PedidoAndamento'
 import Restaurante from '../pages/restaurante/Restaurante'
+import Perfil from '../pages/perfil/Perfil'
+import EditPerfil from '../pages/editPerfil/EditPerfil'
+import EditEndereco from '../pages/editEndereco/EditEndereco'
 
 function Rotas() {
   return (
@@ -19,7 +22,10 @@ function Rotas() {
         <Route path='/cadastroEndereco' element={<CadastroEndereco />} />
         <Route path='/carrinho' element={<Carrinho />} />
         <Route path='/pedidoAndamento' element={<PedidoAndamento />} />
-        <Route path='/restaurante' element={<Restaurante />} />
+        <Route path='/restaurante/:id' element={<Restaurante />} />
+        <Route path='/perfil' element={<Perfil />} />
+        <Route path='/editPerfil' element={<EditPerfil />} />
+        <Route path='/editEndereco' element={<EditEndereco />} />
       </Routes>
     </BrowserRouter>
   )
