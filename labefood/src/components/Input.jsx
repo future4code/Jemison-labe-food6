@@ -18,4 +18,5 @@ const Input = ({ label, placeholder, id, value, onChange, required }) => {
     )
 }
 
+
 export default Input

@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
 import { Box, Card, CardMedia, Container } from '@mui/material'
-import Titulo from '../../components/Titulo'
+import { useNavigate, useParams } from 'react-router-dom'
 import { ArrowBackIos } from '@mui/icons-material'
-import TypoCustom from '../../components/TypoCustom'
-import TituloDivisor from '../../components/TituloDivisor'
-import CardPedido from '../../components/CardPedido'
-import axios from 'axios'
-import useProtectedPage from '../../hooks/useProtectedPage'
 import {BASE_URL} from '../../constants/url'
+import useProtectedPage from '../../hooks/useProtectedPage'
+import TituloDivisor from '../../components/TituloDivisor'
+import TypoCustom from '../../components/TypoCustom'
+import CardPedido from '../../components/CardPedido'
+import Titulo from '../../components/Titulo'
+import axios from 'axios'
 
 const Restaurante = () => {
   useProtectedPage()
@@ -58,7 +58,6 @@ const Restaurante = () => {
       <Card sx={{ width: '100%', borderRadius: '8px 8px 0 0', boxShadow: 'none' }}>
         <CardMedia component='img' alt='burger' height='120' image={data.logoUrl} />
       </Card>
-      
       <Container maxWidth='sm' sx={{ p: 0, mt: '12px' }}>
         <Box sx={{ diplay: 'flex', flexDirection: 'column' }}>
           <TypoCustom texto={data.name} cor='#e86e5a' size='16px' weight='500' />
@@ -76,12 +75,11 @@ const Restaurante = () => {
               {categorizedData[cat].items.map((item, index) => {
                 return (
                   <CardPedido key={index}
+                    id={item.id}                    
                     photo={item.photoUrl}
                     titulo={item.name}
                     descricao={item.description}
                     valor={`R$ ${item.price}`}
-                    quant='0'
-                    add='adicionar'
                   />
                 )
               })}

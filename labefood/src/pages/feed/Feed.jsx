@@ -58,12 +58,13 @@ const Feed = () => {
       i.name.toLowerCase().startsWith(busca.toLowerCase()) || i.category.toLowerCase().startsWith(busca.toLowerCase())
     )
   })
+  
 
   if (!isFocused) {
     return (
       <Container maxWidth='xs' sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', pb: 7 }}>
         <Titulo texto={"Rappi4"} />
-        <Box sx={{ mb: 1, width: '100vw', borderTop: 1, color: '#DDD' }} />
+        <Box sx={{ mb: 1, width: '100vw', borderTop: 1, color: '#DDD'}} />
         <InputSearch placeholder='Restaurante' onClick={() => setIsFocused(true)} value={busca} />
         <HorizontalList onClick={e => setCategoria(e.target.value)} />
         {feed.map((i) => {
