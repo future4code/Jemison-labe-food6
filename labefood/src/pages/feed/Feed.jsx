@@ -16,7 +16,7 @@ const Feed = () => {
   // useProtectedPage()
   const navigate = useNavigate()
 
-  // const token = localStorage.getItem('token')
+  // const token = localStorage.getItem('token') // comentado pois ainda não tem login
 
   const [busca, setBusca] = useState('')
   const [feed, setFeed] = useState([])
