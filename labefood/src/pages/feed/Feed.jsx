@@ -21,7 +21,7 @@ const Feed = () => {
 
   const token = localStorage.getItem('token')
 
-  const [open, setOpen] = useState(false);
+  // const [open, setOpen] = useState(false);
   const [busca, setBusca] = useState('')
   const [feed, setFeed] = useState([])
   const [isFocused, setIsFocused] = useState(false)
@@ -34,7 +34,7 @@ const Feed = () => {
     }
   }
 
-  console.log(open)
+  console.log(context.open)
 
   const resetSearch = () => {
     setIsFocused(false)
@@ -42,11 +42,11 @@ const Feed = () => {
   }
 
   const handleClickOpen = () => {
-    setOpen(true);
+    context.setOpen(true);
   };
 
   const handleClose = () => {
-    setOpen(false);
+    context.setOpen(false);
   }
 
   useEffect(() => {
@@ -68,9 +68,9 @@ const Feed = () => {
 
   useEffect(() => {
     if (context.popup === null) {
-      setOpen(false)
+      context.setOpen(false)
     } else {
-      setOpen(true)
+      context.setOpen(true)
     }
   }, [])
 
@@ -96,7 +96,7 @@ const Feed = () => {
             imgCard={i.logoUrl}
           />)
         })}
-        <PedidoDialog isDialogOpened={open} handleCloseDialog={handleClose} />
+        <PedidoDialog isDialogOpened={context.open} handleCloseDialog={handleClose} />
         <Footer feed={true} />
       </Container >
     )

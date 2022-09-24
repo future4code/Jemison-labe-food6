@@ -7,6 +7,7 @@ const GlobalState = (props) => {
     const [data, setData] = useState([])
     const [pedido, setPedido] = useState([])
     const [popup, setPopup] = useState({})
+    const [open, setOpen] = useState(true);
 
     console.log(popup)
 
@@ -18,7 +19,9 @@ const GlobalState = (props) => {
         pedido, 
         setPedido,
         popup, 
-        setPopup
+        setPopup,
+        open, 
+        setOpen
     }
 
     return (

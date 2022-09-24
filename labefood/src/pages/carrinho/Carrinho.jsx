@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { Box, Container, FormControl, FormControlLabel, Radio, RadioGroup, Typography } from '@mui/material'
+import { useNavigate } from 'react-router-dom'
 import GlobalContext from '../../global/GlobalContext'
 import Titulo from '../../components/Titulo'
 import TypoCustom from '../../components/TypoCustom'
@@ -14,14 +15,14 @@ import axios from 'axios'
 const Carrinho = () => {
   const context = useContext(GlobalContext)
   useProtectedPage()
-
+  const navigate = useNavigate()
 
   const token = localStorage.getItem('token')
 
   const id = context.data.id
   const carrinho = context.cart
 
-  const [total, setTotal] = useState(0)
+  const [total, setTotal] = useState('')
   const [paymentSelected, setPaymentSelected] = useState('')
   const [cartFinal, setCartFinal] = useState([])
 
@@ -45,6 +46,8 @@ const Carrinho = () => {
     .then((res) => {
       console.log(res.data)
       context.setPedido(res.data)
+      navigate(`/feed`)
+      context.setOpen(true)
     }).catch((error) => {
       console.log(error.message)
     })
@@ -54,9 +57,11 @@ const Carrinho = () => {
     carrinho.forEach(element => {
       newPrice += ((element?.price * element?.quant) + (element?.shipping / carrinho.length))
     });
+    newPrice = newPrice.toFixed(2).toString().replace(".", ",")
     setTotal(newPrice)
     bodyHandler()
   }, [carrinho])
+
 
   return (
     <Container sx={{ maxWidth: 'xs', minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', pb: 8 }}>
@@ -94,7 +99,7 @@ const Carrinho = () => {
         </Box>
         <Box sx={{ height: '52px', flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'end' }}>
           <TypoCustom texto={`Frete R$ ${carrinho[0]?.shipping},00`} size='16px' weight='500' pad='0 0 5px 0' />
-          <TypoCustom texto={`R$ ${total},00`} cor='#e86e5a' size='18px' weight='500' pad='5px 0 0 0' />
+          <TypoCustom texto={`R$ ${total}`} cor='#e86e5a' size='18px' weight='500' pad='5px 0 0 0' />
         </Box>
       </Box>
       <TituloDivisor texto='Forma de pagamento' pad='25px 0 0 0' />

@@ -46,9 +46,6 @@ const Perfil = () => {
         })
     }
 
-    var myDate = new Date(history[0]?.createdAt * 1000);
-
-    console.log(myDate)
 
     useEffect(() => {
         adressConfig()
@@ -97,8 +94,8 @@ const Perfil = () => {
                         <CardHistorico
                             key={index}
                             restaurante={i.restaurantName}
-                            total={`SUBTOTAL R$${i.totalPrice},00`}
-                            // data={myDate}
+                            total={`SUBTOTAL R$${i.totalPrice.toFixed(2)}`}
+                            // data={Date(i.createdAt)}
                         />
                     )
                 })}
