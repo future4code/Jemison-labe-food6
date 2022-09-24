@@ -17,6 +17,7 @@ const Perfil = () => {
     const goToEditEnd = (navigate) => { navigate('/editEndereco') }
 
     const [values, setValues] = useState({})
+    const [history, setHistory] = useState([])
 
     const token = localStorage.getItem('token')
 
@@ -33,8 +34,25 @@ const Perfil = () => {
             })
     }
 
+    const historico = () => {
+        axios.get(`${BASE_URL}/orders/history`, {
+            headers: {
+                auth: token
+            }
+        }).then((res) => {
+            setHistory(res.data.orders)
+        }).catch((error) => {
+            console.log(error.message)
+        })
+    }
+
+    var myDate = new Date(history[0]?.createdAt * 1000);
+
+    console.log(myDate)
+
     useEffect(() => {
         adressConfig()
+        historico()
     }, [])
 
     return (
@@ -74,26 +92,16 @@ const Perfil = () => {
             <Container sx={{ p: 0 }}>
 
                 <TituloDivisor texto='Histórico de pedidos' />
-                <CardHistorico
-                    restaurante='Bullguer Vila Madalena'
-                    data='23 outubro de 2019'
-                    total='SUBTOTAL R$67,00'
-                />
-                <CardHistorico
-                    restaurante='Bullguer'
-                    data='23 outubro de 2019'
-                    total='SUBTOTAL R$67,00'
-                />
-                <CardHistorico
-                    restaurante='Bullguer'
-                    data='23 outubro de 2019'
-                    total='SUBTOTAL R$67,00'
-                />
-                <CardHistorico
-                    restaurante='Bullguer'
-                    data='23 outubro de 2019'
-                    total='SUBTOTAL R$67,00'
-                />
+                {history.map((i, index) => {
+                    return (
+                        <CardHistorico
+                            key={index}
+                            restaurante={i.restaurantName}
+                            total={`SUBTOTAL R$${i.totalPrice},00`}
+                            // data={myDate}
+                        />
+                    )
+                })}
             </Container>
             <Footer user={true} />
         </Container >
