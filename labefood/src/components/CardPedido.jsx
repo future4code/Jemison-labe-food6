@@ -2,21 +2,17 @@ import React, { useState } from 'react'
 import { Box, Card, CardMedia, Typography, CardContent, CardActionArea } from '@mui/material'
 import QuantDialog from './QuantDialog'
 
-const CardPedido = ({ photo, titulo, descricao, valor, quant, add }) => {
+const CardPedido = ({ item, addToCart }) => {
     const [open, setOpen] = useState(false);
+    const [quantSelected, setQuantSelected] = useState(0)
 
-    const txtColors = {
-        adicionar: '#000',
-        remover: '#e86e5a'
+    const getQuant = (seila) => {
+        setQuantSelected(Number(seila))
     }
 
-    const borderColors = {
-        adicionar: '1px solid #000',
-        remover: '1px solid #e86e5a'
-    }
-    const quantBox = {
-        adicionar: 'none',
-        remover: 'flex'
+    const removeQuant = () => {
+        setQuantSelected((prev) => prev - 1)
+        addToCart(item, (quantSelected - 1))
     }
 
     const handleClickOpen = () => {
@@ -25,33 +21,34 @@ const CardPedido = ({ photo, titulo, descricao, valor, quant, add }) => {
 
     const handleClose = () => {
         setOpen(false);
-    };
+        addToCart(item, quantSelected)
+    }
 
     return (
-        <Card maxWidth='sm' sx={{ borderRadius: '8px', my: '12px', boxShadow: '0px 1px 2px 1px rgba(0,0,0,0.25)' }}>
+        <Card value={item?.id} sx={{ borderRadius: '8px', my: '12px', boxShadow: '0px 1px 2px 1px rgba(0,0,0,0.25)' }}>
             <CardActionArea sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <CardMedia component="img" sx={{ width: '97px', height: '128px', flex: 1 }} image={photo} alt="burger" />
+                <CardMedia component="img" sx={{ width: '97px', height: '128px', flex: 1 }} image={item?.photoUrl} alt="burger" />
                 <CardContent sx={{ flex: 2, py: 0 }}>
                     <Typography component='div' fontWeight='500' fontSize='16px' color='#e86e5a' sx={{ p: 0 }}>
-                        {titulo}
+                        {item?.name}
                     </Typography>
                     <Typography color='#b8b8b8' fontSize='16px'>
-                        {descricao}
+                        {item?.description}
                     </Typography>
                     <Typography color='#000' fontWeight='500' fontSize='16px'>
-                        {valor}
+                        {`R$ ${item?.price}`}
                     </Typography>
-                    <Box sx={{ border: '1px solid #e86e5a', height: '33px', width: '33px', borderRadius: '0 8px 0 8px', position: 'absolute', right: '0', top: '0', display: quantBox[add], justifyContent: 'center', alignItems: 'center' }}>
+                    <Box sx={{ border: '1px solid #e86e5a', height: '33px', width: '33px', borderRadius: '0 8px 0 8px', position: 'absolute', right: '0', top: '0', display: [quantSelected > 0 || item?.quant > 0 ? 'flex' : 'none'], justifyContent: 'center', alignItems: 'center' }}>
                         <Typography color='#e86e5a' fontSize='12px'>
-                            {quant}
+                            {item?.quant ? item.quant : quantSelected}
                         </Typography>
                     </Box>
-                    <Box onClick={handleClickOpen} sx={{ border: borderColors[add], height: '30px', width: '90px', borderRadius: '8px 0 8px 0', position: 'absolute', right: '0', bottom: '0', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                        <Typography fontSize='12px' sx={{ color: txtColors[add] }}>
-                            {add}
+                    <Box onClick={quantSelected > 0 ? removeQuant : handleClickOpen} sx={{ border: [quantSelected > 0 || item?.quant > 0 ? '1px solid #e86e5a' : '1px solid #000'], height: '30px', width: '90px', borderRadius: '8px 0 8px 0', position: 'absolute', right: '0', bottom: '0', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                        <Typography fontSize='12px' sx={{ color: [quantSelected > 0 || item?.quant > 0 ? '#e86e5a' : '#000'] }}>
+                            {[quantSelected > 0 || item?.quant > 0 ? 'remover' : 'adicionar']}
                         </Typography>
                     </Box>
-                    <QuantDialog isDialogOpened={open} handleCloseDialog={handleClose}/>
+                    <QuantDialog isDialogOpened={open} handleCloseDialog={handleClose} onChange={getQuant} />
                 </CardContent>
             </CardActionArea>
         </Card>

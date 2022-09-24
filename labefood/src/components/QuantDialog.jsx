@@ -2,10 +2,14 @@ import React, { useState } from 'react'
 import { Box, Button, Dialog, TextField, DialogActions } from '@mui/material'
 import TypoCustom from './TypoCustom'
 
-const QuantDialog = ({ isDialogOpened, handleCloseDialog }) => {
+const QuantDialog = ({ isDialogOpened, handleCloseDialog, onChange }) => {
 
     const [quantity, setQuantity] = useState(0)
 
+    const handleQuantChange = (e) => {
+        setQuantity(e.target.value)
+        onChange(e.target.value)
+    }
     return (
         < Dialog
             open={isDialogOpened}
@@ -15,13 +19,13 @@ const QuantDialog = ({ isDialogOpened, handleCloseDialog }) => {
                 <Box sx={{ display: 'flex', justifyContent: 'center', p: '12px' }}>
                     <TypoCustom size='16px' texto='Selecione a quantidade desejada' />
                 </Box>
-                <TextField
+                <TextField 
                     type='number'
                     placeholder='0'
                     value={quantity}
                     fullWidth
                     inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
-                    onChange={e => setQuantity(e.target.value)}
+                    onChange={handleQuantChange}
                     sx={{ px: '16px', pb: '15px' }}
                 />
                 <DialogActions>

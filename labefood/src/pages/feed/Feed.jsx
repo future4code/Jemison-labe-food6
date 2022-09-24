@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
+import GlobalContext from '../../global/GlobalContext'
 import { useNavigate } from 'react-router-dom'
 import { Box, Container } from '@mui/material'
 import { BASE_URL } from '../../constants/url'
 import { ArrowBackIos } from '@mui/icons-material'
-// import useProtectedPage from '../../hooks/useProtectedPage'
+import useProtectedPage from '../../hooks/useProtectedPage'
 import HorizontalList from '../../components/HorizontalList'
+import PedidoDialog from '../../components/PedidoDialog'
 import InputSearch from '../../components/InputSearch'
 import TypoCustom from '../../components/TypoCustom'
 import CardFeed from '../../components/CardFeed'
@@ -13,11 +15,13 @@ import Footer from '../../components/Footer'
 import axios from 'axios'
 
 const Feed = () => {
-  // useProtectedPage()
+  useProtectedPage()
+  const context = useContext(GlobalContext)
   const navigate = useNavigate()
 
-  // const token = localStorage.getItem('token') // comentado pois ainda não tem login
+  const token = localStorage.getItem('token')
 
+  const [open, setOpen] = useState(false);
   const [busca, setBusca] = useState('')
   const [feed, setFeed] = useState([])
   const [isFocused, setIsFocused] = useState(false)
@@ -30,15 +34,25 @@ const Feed = () => {
     }
   }
 
+  console.log(open)
+
   const resetSearch = () => {
     setIsFocused(false)
     setBusca('')
   }
 
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  }
+
   useEffect(() => {
     axios.get(`${BASE_URL}/restaurants`, {
       headers: {
-        'auth': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjBYdTZ4alV5S2dOT21qdDZyc1ZrIiwibmFtZSI6IkthcHRob3MiLCJlbWFpbCI6Imp1YW4udG9ydGVyb2xvQGdtYWlsLmNvbSIsImNwZiI6IjQwOS4xMTIuMDM4LTUwIiwiaGFzQWRkcmVzcyI6dHJ1ZSwiYWRkcmVzcyI6IlIuIERyLiBMaWNpbmlvIE1hcmFnbGlhbm8sIDMwOSwgY2FzYSAtIEpkLiBQcm9taXNzw6NvIiwiaWF0IjoxNjYzNjI1MjgzfQ.3PEYwCAHR_nI_glUoj8j8SEYDF89Qkye5wV9IpnNTMA'
+        'auth': token
       }
     })
       .then((res) => {
@@ -52,6 +66,13 @@ const Feed = () => {
     categorySearch()
   }, [categoria])
 
+  useEffect(() => {
+    if (context.popup === null) {
+      setOpen(false)
+    } else {
+      setOpen(true)
+    }
+  }, [])
 
   const testeFiltro = feed.filter((i) => {
     return (
@@ -75,6 +96,7 @@ const Feed = () => {
             imgCard={i.logoUrl}
           />)
         })}
+        <PedidoDialog isDialogOpened={open} handleCloseDialog={handleClose} />
         <Footer feed={true} />
       </Container >
     )
@@ -95,7 +117,7 @@ const Feed = () => {
             fee={i.shipping}
             imgCard={i.logoUrl}
           />)
-        }) : <Box sx={{mt:'18px'}}><TypoCustom texto='Não encontramos :(' size='16px' weight='500' /></Box>}
+        }) : <Box sx={{ mt: '18px' }}><TypoCustom texto='Não encontramos :(' size='16px' weight='500' /></Box>}
         <Box sx={{ mt: '18px' }}>
         </Box>
       </Container >

@@ -7,7 +7,7 @@ const Footer = ({feed, cart, user}) => {
 
     const goToFeed = (navigate) => { navigate('/feed') }
     const goToCart = (navigate) => { navigate('/carrinho') }
-    const goToUser = (navigate) => { navigate('/') }
+    const goToUser = (navigate) => { navigate('/perfil') }
 
     return (
         <Box sx={{ position: "fixed", bottom: '0', boxShadow: '0px -1px 2px 0px rgba(0,0,0,0.3)', bgcolor: '#fefefe', width: '100vw', height: '49px', display: 'flex', alignItems: 'center', mt: 2 }}>
