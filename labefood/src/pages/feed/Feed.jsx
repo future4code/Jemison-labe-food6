@@ -21,6 +21,10 @@ const Feed = () => {
 
   const token = localStorage.getItem('token')
 
+  window.onbeforeunload = () => {
+    localStorage.removeItem('token');
+  }
+
   // const [open, setOpen] = useState(false);
   const [busca, setBusca] = useState('')
   const [feed, setFeed] = useState([])
@@ -33,8 +37,6 @@ const Feed = () => {
       setIsFocused(true)
     }
   }
-
-  console.log(context.open)
 
   const resetSearch = () => {
     setIsFocused(false)
@@ -56,6 +58,7 @@ const Feed = () => {
       }
     })
       .then((res) => {
+        console.log(res.data)
         setFeed(res.data.restaurants)
       }).catch((error) => {
         console.log(error.message)

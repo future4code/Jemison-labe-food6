@@ -19,6 +19,10 @@ const Carrinho = () => {
 
   const token = localStorage.getItem('token')
 
+  window.onbeforeunload = () => {
+    localStorage.removeItem('token');
+  }
+
   const id = context.data.id
   const carrinho = context.cart
 
@@ -40,11 +44,8 @@ const Carrinho = () => {
 
   const body = { products: cartFinal, paymentMethod: paymentSelected }
 
-  console.log(body)
-
   axios.post(`${BASE_URL}/restaurants/${id}/order`, body, { headers: { 'auth': token } })
     .then((res) => {
-      console.log(res.data)
       context.setPedido(res.data)
       navigate(`/feed`)
       context.setOpen(true)

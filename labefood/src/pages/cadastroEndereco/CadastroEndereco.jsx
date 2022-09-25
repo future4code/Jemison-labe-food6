@@ -11,7 +11,9 @@ import axios from 'axios'
 const CadastroEndereco = () => {
   useProtectedPage()
   const navigate = useNavigate()
-  const goToFeed = (navigate) => { navigate('/feed') }
+  const goToLogin = (navigate) => { navigate('/login') }
+
+  const token = localStorage.getItem('token')
 
   const [values, setValues] = useState({
     street: '',
@@ -22,23 +24,23 @@ const CadastroEndereco = () => {
     complement: '',
   })
 
-  const adressConfig = () => {
-    const token = localStorage.getItem('token')
+  const body = {
+    "street": values.street,
+    "number": values.number,
+    "neighbourhood": values.neighbourhood,
+    "city": values.city,
+    "state": values.state,
+    "complement": values.complement
+  };
 
-    axios.put(`${BASE_URL}/address`, {
-      "street": values.street,
-      "number": values.number,
-      "neighbourhood": values.neighbourhood,
-      "city": values.city,
-      "state": values.state,
-      "complement": values.complement
-    }, {
+  const adressConfig = () => {
+    axios.put(`${BASE_URL}/address`, body , {
       headers: {
-        auth: token
+        'auth': token
       }
     })
       .then((response) => {
-        goToFeed(navigate)
+        goToLogin(navigate)
       }).catch((error) => {
         console.log(error.response.data)
       })

@@ -49,7 +49,7 @@ const EditEndereco = () => {
             "complement": values.complement
         }, {
             headers: {
-                auth: token
+                'auth': token
             }
         })
             .then((response) => {

@@ -51,7 +51,7 @@ const Login = () => {
           goToFeed(navigate)
         }
       }).catch((error) => {
-        console.log(error.response.data.message)
+        console.log("Usuário não cadastrado")
       })
   }
 
