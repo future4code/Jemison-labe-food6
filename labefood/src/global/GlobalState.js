@@ -9,8 +9,6 @@ const GlobalState = (props) => {
     const [popup, setPopup] = useState({})
     const [open, setOpen] = useState(true);
 
-    console.log(popup)
-
     const states = {
         cart, 
         setCart,

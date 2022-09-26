@@ -15,6 +15,9 @@ const Login = () => {
 
   const goToSignUp = (navigate) => { navigate('/signup') }
   const goToFeed = (navigate) => { navigate('/feed') }
+  const [isFocused, setIsFocused] = useState(false)
+
+  console.log(isFocused)
 
   const [values, setValues] = useState({
     password: '',
@@ -74,6 +77,8 @@ const Login = () => {
           label='E-mail'
           placeholder='email@email.com'
           onChange={handleChange('email')}
+          id='userEmail'
+          onClick={() => setIsFocused(true)}
         />
         <InputSenha
           label='Senha'
