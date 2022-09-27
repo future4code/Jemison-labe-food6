@@ -1,20 +1,20 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { Box, TextField } from '@mui/material'
 
-const Input = ({ label, placeholder, id, value, onChange, onClick }) => {
+
+const Input = ({ label, placeholder, id, value, onChange, helperText, error }) => {
 
     return (
         <Box sx={{ width: '100%' }}>
             <TextField sx={{ width: '100%', my: 1 }}
-                // error
-                onFocus={onClick}
-                InputLabelProps={{ shrink: true, pattern:"[A-Za-z]{3}" }}
+                error={error}
+                InputLabelProps={{ shrink: true}}
                 onChange={onChange}
                 value={value}
                 id={id}
                 label={label}
                 placeholder={placeholder}
-                // helperText={textoErro ? textoErro : '' }
+                helperText={helperText}
             />
         </Box>
     )

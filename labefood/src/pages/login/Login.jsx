@@ -9,21 +9,42 @@ import LogoImg from '../../components/Logo'
 import Input from '../../components/Input'
 import axios from 'axios'
 import { BASE_URL } from '../../constants/url'
+import { validateEmail, validatePassword } from '../../services/Regex'
 
 const Login = () => {
   const navigate = useNavigate()
 
   const goToSignUp = (navigate) => { navigate('/signup') }
   const goToFeed = (navigate) => { navigate('/feed') }
-  const [isFocused, setIsFocused] = useState(false)
 
-  console.log(isFocused)
+  const [emailErr, setEmailErr] = useState(false)
+  const [emailTestee, setEmailTestee] = useState('')
+  // const [passwordErr, setPasswordErr] = useState(false)
+  // const [passwordTestee, setPasswordTestee] = useState('')
+
+  const validate = () => {
+    if (!validateEmail.test(values.email)) {
+      setEmailErr(true)
+      setEmailTestee('Insira um e-mail válido')
+    } else {
+      setEmailErr(false)
+    }
+    // if (!validatePassword.test(values.password)) {
+    //   setPasswordErr(true)
+    //   setPasswordTestee('Insira uma senha válida')
+    // } else {
+    //   setPasswordErr(false)
+    // }
+  }
 
   const [values, setValues] = useState({
     password: '',
     email: '',
     showPassword: false,
   });
+
+  console.log(!validatePassword.test(values.password))
+  console.log(passwordErr)
 
   const handleChange = (prop) => (event) => {
     setValues({ ...values, [prop]: event.target.value });
@@ -40,7 +61,7 @@ const Login = () => {
     event.preventDefault();
   };
 
-  
+
   const Log = () => {
     axios.post(`${BASE_URL}/login`, {
       "email": values.email,
@@ -48,7 +69,7 @@ const Login = () => {
     })
       .then((res) => {
         localStorage.setItem('token', res.data.token)
-        if(!res.data.user.hasAddress){
+        if (!res.data.user.hasAddress) {
           navigate('/cadastroEndereco')
         } else {
           goToFeed(navigate)
@@ -73,12 +94,13 @@ const Login = () => {
       <Titulo texto="Entrar" />
       <Box onSubmit={handleSubmit} component='form' noValidate autoComplete="off" sx={{ width: '100%' }} >
         <Input
+          error={emailErr}
           value={values.email}
           label='E-mail'
           placeholder='email@email.com'
           onChange={handleChange('email')}
           id='userEmail'
-          onClick={() => setIsFocused(true)}
+          helperText={emailErr ? emailTestee : ''}
         />
         <InputSenha
           label='Senha'
@@ -90,7 +112,7 @@ const Login = () => {
           value={values.password}
           testeee={values.showPassword ? <VisibilityOff /> : <Visibility />}
         />
-        <ButtonCustom type='submit' value={'Entrar'} texto='Entrar' />
+        <ButtonCustom onClick={() => validate()} type='submit' value={'Entrar'} texto='Entrar' />
       </Box>
       <Titulo onClick={() => goToSignUp(navigate)} link={"Não possui cadastro? Clique aqui"} />
     </Container>
