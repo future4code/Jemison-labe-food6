@@ -9,18 +9,42 @@ import LogoImg from '../../components/Logo'
 import Input from '../../components/Input'
 import axios from 'axios'
 import { BASE_URL } from '../../constants/url'
+import { validateEmail, validatePassword } from '../../validation'
 
 const Login = () => {
   const navigate = useNavigate()
 
   const goToSignUp = (navigate) => { navigate('/signup') }
   const goToFeed = (navigate) => { navigate('/feed') }
+  const [isFocused, setIsFocused] = useState(false)
+
+  console.log(isFocused)
 
   const [values, setValues] = useState({
     password: '',
     email: '',
     showPassword: false,
   });
+
+  const [valuesErr, setValuesErr] = useState(false)
+  const validateEmailRegex = () => {
+    if (!validateEmail.test(values.email)) {
+      setValuesErr(true)
+    } else {
+      setValuesErr(false)
+    }
+  }
+  console.log(validateEmailRegex)
+
+  const validatePasswordRegex = () => {
+    if (!validatePassword.test(values.password)) {
+      setValuesErr(true)
+    } else {
+      setValuesErr(false)
+    }
+  } 
+  console.log(validatePasswordRegex);
+
 
   const handleChange = (prop) => (event) => {
     setValues({ ...values, [prop]: event.target.value });
@@ -37,7 +61,7 @@ const Login = () => {
     event.preventDefault();
   };
 
-  
+
   const Log = () => {
     axios.post(`${BASE_URL}/login`, {
       "email": values.email,
@@ -45,13 +69,13 @@ const Login = () => {
     })
       .then((res) => {
         localStorage.setItem('token', res.data.token)
-        if(!res.data.user.hasAddress){
+        if (!res.data.user.hasAddress) {
           navigate('/cadastroEndereco')
         } else {
           goToFeed(navigate)
         }
       }).catch((error) => {
-        console.log(error.response.data.message)
+        console.log("Usuário não cadastrado")
       })
   }
 
@@ -74,7 +98,11 @@ const Login = () => {
           label='E-mail'
           placeholder='email@email.com'
           onChange={handleChange('email')}
+          id='userEmail'
+          onClick={() => setIsFocused(true)}
         />
+        {valuesErr.email && <p>Insira um e-mail valido!</p>}
+
         <InputSenha
           label='Senha'
           placeholder='Mínimo 6 caracteres'
@@ -85,6 +113,8 @@ const Login = () => {
           value={values.password}
           testeee={values.showPassword ? <VisibilityOff /> : <Visibility />}
         />
+        {valuesErr.password && <p>Insira uma senha valida!</p>}
+
         <ButtonCustom type='submit' value={'Entrar'} texto='Entrar' />
       </Box>
       <Titulo onClick={() => goToSignUp(navigate)} link={"Não possui cadastro? Clique aqui"} />

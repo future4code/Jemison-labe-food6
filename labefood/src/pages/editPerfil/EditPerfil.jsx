@@ -27,7 +27,7 @@ const EditPerfil = () => {
     useEffect(() => {
         axios.get(`${BASE_URL}/profile`, {
             headers: {
-                auth: token
+                'auth': token
             }
         }).then((res) => {
             setValues(res.data.user)

@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
+import GlobalContext from '../../global/GlobalContext'
 import { useNavigate } from 'react-router-dom'
 import { Box, Container } from '@mui/material'
 import { BASE_URL } from '../../constants/url'
 import { ArrowBackIos } from '@mui/icons-material'
 import useProtectedPage from '../../hooks/useProtectedPage'
 import HorizontalList from '../../components/HorizontalList'
+import PedidoDialog from '../../components/PedidoDialog'
 import InputSearch from '../../components/InputSearch'
 import TypoCustom from '../../components/TypoCustom'
 import CardFeed from '../../components/CardFeed'
@@ -14,10 +16,16 @@ import axios from 'axios'
 
 const Feed = () => {
   useProtectedPage()
+  const context = useContext(GlobalContext)
   const navigate = useNavigate()
 
   const token = localStorage.getItem('token')
 
+  window.onbeforeunload = () => {
+    localStorage.removeItem('token');
+  }
+
+  // const [open, setOpen] = useState(false);
   const [busca, setBusca] = useState('')
   const [feed, setFeed] = useState([])
   const [isFocused, setIsFocused] = useState(false)
@@ -35,6 +43,14 @@ const Feed = () => {
     setBusca('')
   }
 
+  const handleClickOpen = () => {
+    context.setOpen(true);
+  };
+
+  const handleClose = () => {
+    context.setOpen(false);
+  }
+
   useEffect(() => {
     axios.get(`${BASE_URL}/restaurants`, {
       headers: {
@@ -42,6 +58,7 @@ const Feed = () => {
       }
     })
       .then((res) => {
+        console.log(res.data)
         setFeed(res.data.restaurants)
       }).catch((error) => {
         console.log(error.message)
@@ -52,6 +69,13 @@ const Feed = () => {
     categorySearch()
   }, [categoria])
 
+  useEffect(() => {
+    if (context.popup === null) {
+      context.setOpen(false)
+    } else {
+      context.setOpen(true)
+    }
+  }, [])
 
   const testeFiltro = feed.filter((i) => {
     return (
@@ -75,6 +99,7 @@ const Feed = () => {
             imgCard={i.logoUrl}
           />)
         })}
+        <PedidoDialog isDialogOpened={context.open} handleCloseDialog={handleClose} />
         <Footer feed={true} />
       </Container >
     )
@@ -95,7 +120,7 @@ const Feed = () => {
             fee={i.shipping}
             imgCard={i.logoUrl}
           />)
-        }) : <Box sx={{mt:'18px'}}><TypoCustom texto='Não encontramos :(' size='16px' weight='500' /></Box>}
+        }) : <Box sx={{ mt: '18px' }}><TypoCustom texto='Não encontramos :(' size='16px' weight='500' /></Box>}
         <Box sx={{ mt: '18px' }}>
         </Box>
       </Container >
