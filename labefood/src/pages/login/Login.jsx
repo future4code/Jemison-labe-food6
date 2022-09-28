@@ -9,16 +9,26 @@ import LogoImg from '../../components/Logo'
 import Input from '../../components/Input'
 import axios from 'axios'
 import { BASE_URL } from '../../constants/url'
-import { validateEmail, validatePassword } from '../../validation'
+import { validateEmail} from '../../services/Regex'
 
 const Login = () => {
   const navigate = useNavigate()
 
   const goToSignUp = (navigate) => { navigate('/signup') }
   const goToFeed = (navigate) => { navigate('/feed') }
-  const [isFocused, setIsFocused] = useState(false)
 
-  console.log(isFocused)
+  const [emailErr, setEmailErr] = useState(false)
+  const [emailOk, setEmailOk] = useState('')
+
+
+  const validate = () => {
+    if (!validateEmail.test(values.email)) {
+      setEmailErr(true)
+      setEmailOk('Insira um e-mail válido')
+    } else {
+      setEmailErr(false)
+    }
+  }
 
   const [values, setValues] = useState({
     password: '',
@@ -26,24 +36,6 @@ const Login = () => {
     showPassword: false,
   });
 
-  const [valuesErr, setValuesErr] = useState(false)
-  const validateEmailRegex = () => {
-    if (!validateEmail.test(values.email)) {
-      setValuesErr(true)
-    } else {
-      setValuesErr(false)
-    }
-  }
-  console.log(validateEmailRegex)
-
-  const validatePasswordRegex = () => {
-    if (!validatePassword.test(values.password)) {
-      setValuesErr(true)
-    } else {
-      setValuesErr(false)
-    }
-  } 
-  console.log(validatePasswordRegex);
 
 
   const handleChange = (prop) => (event) => {
@@ -94,14 +86,15 @@ const Login = () => {
       <Titulo texto="Entrar" />
       <Box onSubmit={handleSubmit} component='form' noValidate autoComplete="off" sx={{ width: '100%' }} >
         <Input
+          error={emailErr}
           value={values.email}
           label='E-mail'
           placeholder='email@email.com'
           onChange={handleChange('email')}
           id='userEmail'
-          onClick={() => setIsFocused(true)}
+          helperText={emailErr ? emailOk : ''}
         />
-        {valuesErr.email && <p>Insira um e-mail valido!</p>}
+        {emailErr && <p>Insira um e-mail valido!</p>}
 
         <InputSenha
           label='Senha'
@@ -113,9 +106,7 @@ const Login = () => {
           value={values.password}
           testeee={values.showPassword ? <VisibilityOff /> : <Visibility />}
         />
-        {valuesErr.password && <p>Insira uma senha valida!</p>}
-
-        <ButtonCustom type='submit' value={'Entrar'} texto='Entrar' />
+        <ButtonCustom onClick={() => validate()} type='submit' value={'Entrar'} texto='Entrar' />
       </Box>
       <Titulo onClick={() => goToSignUp(navigate)} link={"Não possui cadastro? Clique aqui"} />
     </Container>

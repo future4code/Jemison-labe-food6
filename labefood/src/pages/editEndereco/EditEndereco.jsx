@@ -8,6 +8,8 @@ import ButtonCustom from '../../components/ButtonCustom'
 import Titulo from '../../components/Titulo'
 import Input from '../../components/Input'
 import axios from 'axios'
+import { validateStreet } from './../../services/Regex'
+
 
 const EditEndereco = () => {
     useProtectedPage()
@@ -15,6 +17,18 @@ const EditEndereco = () => {
     const goToPerf = (navigate) => { navigate('/perfil') }
 
     const token = localStorage.getItem('token')
+
+    const [streetErr, setStreetlErr] = useState(false)
+    const [streetOk, setStreetOk] = useState('')
+
+    const validate = () => {
+        if (!validateStreet.test(values.street)) {
+            setStreetlErr(true)
+            setStreetOk('Insira um endereço  valido!')
+        } else {
+            setStreetlErr(false)
+        }
+    }
 
     const [values, setValues] = useState({
         street: '',
@@ -81,11 +95,14 @@ const EditEndereco = () => {
             <Box sx={{ mb: 1, width: '100vw', borderTop: 1, color: '#DDD' }} />
             <Box onSubmit={handleSubmit} component='form' sx={{ width: '100%' }} >
                 <Input
+                    error={streetErr}
                     value={values.street}
                     label='Logradouro'
                     placeholder='Rua / Av.'
                     onChange={handleChange('street')}
+                    helperText={streetErr ? streetOk : ''}
                 />
+                {streetErr && <p>Insira um endereço valido!</p>}
                 <Input
                     value={values.number}
                     label='Número'
@@ -116,7 +133,7 @@ const EditEndereco = () => {
                     placeholder='Estado'
                     onChange={handleChange('state')}
                 />
-                <ButtonCustom type='submit' texto='Salvar' />
+                <ButtonCustom onClick={() => validate()} type='submit' texto='Salvar' />
             </Box>
         </Container>
     )
