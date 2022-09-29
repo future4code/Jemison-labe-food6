@@ -8,11 +8,38 @@ import ButtonCustom from '../../components/ButtonCustom'
 import Titulo from '../../components/Titulo'
 import Input from '../../components/Input'
 import axios from 'axios'
+import { validateEmail, validateName, validateCpf } from './../../services/Regex'
 
 const EditPerfil = () => {
     useProtectedPage()
     const navigate = useNavigate()
     const goToPerf = (navigate) => { navigate('/perfil') }
+
+    const [emailErr, setEmailErr] = useState(false)
+    const [emailOk, setEmailOk] = useState('')
+    const [nameErr, setNameErr] = useState(false)
+    const [nameOk, setNameOk] = useState('')
+    const [cpfErr, setCpfError] = useState(false)
+    const [cpfOk, setCpfOk] = useState('')
+
+    const validate = () => {
+        if (!validateEmail.test(values.email)) {
+        setEmailErr(true)
+        setEmailOk('Insira um e-mail valido!')
+        } else {
+        setEmailErr(false)
+        } if (!validateName.test(values.name)) {
+        setNameErr(true)
+        setNameOk('Insrira um nome e sobrenome.')
+        } else {
+        setNameErr(false)
+        } if (!validateCpf.test(values.cpf)) {
+        setCpfError(true)
+        setCpfOk('Insrira um cpf valido.')
+        } else {
+        setCpfError(false)
+        }
+    }
 
     const token = localStorage.getItem('token')
 
@@ -59,7 +86,9 @@ const EditPerfil = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        adressConfig()
+        if (emailErr === false && nameErr === false && cpfErr === false) {
+            adressConfig()
+        }
     }
 
     useEffect(() => {
@@ -86,13 +115,15 @@ const EditPerfil = () => {
                     placeholder='email@email.com'
                     onChange={handleChange('email')}
                 />
+                {emailErr && <p>Insira um e-mail valido!</p>}
                 <Input
                     value={values.cpf}
                     label='CPF'
                     placeholder='000.000.000-00'
                     onChange={handleChange('cpf')}
                 />
-                <ButtonCustom type='submit' texto='Salvar' />
+                {cpfErr && <p>Insira um CPF valido!</p>}
+                <ButtonCustom onClick={() => validate()} type='submit' texto='Salvar' />
             </Box>
         </Container>
     )
