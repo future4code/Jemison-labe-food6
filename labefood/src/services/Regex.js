@@ -6,4 +6,14 @@ export const validateName = new RegExp('^[A-Z][a-z].* [A-Z][a-z].*');
 
 export const validateCpf = new RegExp('^[0-9]{3}\.[0-9]{3}\.[0-9]{3}\-[0-9]{2}$');
 
-export const  validateStreet = new RegExp('^(RUA|Rua|R.|AVENIDA|Avenida|AV.|TRAVESSA|Travessa|TRAV.|Trav.) ([a-zA-Z_]+)[, ]+(\d+)\s?([-/\da-zDA-Z\\ ]+)?$');
+export const  validateStreet = new RegExp('^(RUA|Rua|R.|AVENIDA|Avenida|AV.|TRAVESSA|Travessa|TRAV.|Trav.) ([a-zA-Z_\s.A-zÀ-ú]+)$')
+
+export const validateNumber = new RegExp('^[0-9]+[a-zA-Z]?$')
+
+export const validateComp = new RegExp('^(Bloco|BLOCO|BL.|APTO.|AP.|Apartamento|Casa|Sobrado) ([a-zA-Z_\s.A-zÀ-ú0-9]+)$')
+
+export const validateNeighbourhood = new RegExp('^[A-Z][a-z].* [A-Z][a-z].*');
+
+export const validateCity = new RegExp('^[A-Z][a-z]+[[ ][A-Z][a-z]+].*');
+
+export const validateState = new RegExp('^[A-Z]{2}.*');
