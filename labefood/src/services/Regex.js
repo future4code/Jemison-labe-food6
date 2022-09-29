@@ -1,8 +1,8 @@
 export const validateEmail = new RegExp('^[a-zA-Z0-9._:$!%-]{3,}@[a-zA-Z0-9.-]{2,}[.][a-z]{2,3}$');
 
-export const validatePassword = new RegExp('^(?=.{8,})(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=]).*$ ');
+export const validatePassword = new RegExp('^(?=.{6,})(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).*$ ');
 
-export const validateName = new RegExp('^[A-Za-z]+.*$');
+export const validateName = new RegExp('^[A-Za-z]+$');
 
 export const validateCpf = new RegExp('^[0-9]{3}\.[0-9]{3}\.[0-9]{3}\-[0-9]{2}$');
 

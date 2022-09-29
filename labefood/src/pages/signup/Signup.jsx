@@ -83,7 +83,7 @@ const Signup = () => {
     e.preventDefault()
     if (emailErr === false && nameErr === false && cpfErr === false) {
       cadastro()
-      if (!data.user.hasAddress && values.password === values.confirm) {
+      if (!data?.user.hasAddress && values.password === values.confirm) {
         navigate('/cadastroEndereco')
       }
     }
