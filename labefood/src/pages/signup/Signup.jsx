@@ -1,18 +1,19 @@
 import React, { useState, useEffect } from 'react'
+import { Visibility, VisibilityOff } from '@mui/icons-material'
 import { useNavigate } from 'react-router-dom'
 import { Box, Container } from '@mui/material'
-import LogoImg from '../../components/Logo'
-import Titulo from '../../components/Titulo'
-import Input from '../../components/Input'
-import InputSenha from '../../components/InputSenha'
-import ButtonCustom from '../../components/ButtonCustom'
-import { Visibility, VisibilityOff } from '@mui/icons-material'
 import { BASE_URL } from '../../constants/url'
+import ButtonCustom from '../../components/ButtonCustom'
+import InputSenha from '../../components/InputSenha'
+import Titulo from '../../components/Titulo'
+import LogoImg from '../../components/Logo'
+import Input from '../../components/Input'
 import axios from 'axios'
 import { validateEmail, validateName, validateCpf } from './../../services/Regex'
 
 const Signup = () => {
   const navigate = useNavigate()
+  const [data, setData] = useState()
 
   const [values, setValues] = useState({
     nome: '',
@@ -71,10 +72,8 @@ const Signup = () => {
       "password": values.password
     })
       .then((response) => {
+        setData(response.data)
         localStorage.setItem("token", response.data.token)
-        if (!response.data.user.hasAddress) {
-          navigate('/cadastroEndereco')
-        }
       }).catch((error) => {
         console.log(error.response.data.message)
       })
@@ -82,14 +81,17 @@ const Signup = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    cadastro()
+    if (emailErr === false && nameErr === false && cpfErr === false) {
+      cadastro()
+      if (!data.user.hasAddress && values.password === values.confirm) {
+        navigate('/cadastroEndereco')
+      }
+    }
   }
 
   useEffect(() => {
     cadastro()
   }, [])
-
-  console.log(values.nome, values.email, values.cpf, values.password, values.confirm)
 
   return (
     <Container maxWidth='sm' sx={{ height: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', pt: 8 }}>
@@ -122,7 +124,7 @@ const Signup = () => {
           onChange={handleChange('cpf')}
           helperText={cpfErr ? cpfOk : ''}
         />
-        {cpfErr &&  <p>Insira um CPF valido!</p>}
+        {cpfErr && <p>Insira um CPF valido!</p>}
         <InputSenha
           label='Senha'
           placeholder='Mínimo 6 caracteres'
@@ -147,7 +149,6 @@ const Signup = () => {
       </Box>
     </Container>
   )
-
 }
 
 export default Signup 

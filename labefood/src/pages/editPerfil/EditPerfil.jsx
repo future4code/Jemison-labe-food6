@@ -31,7 +31,6 @@ const EditPerfil = () => {
             }
         }).then((res) => {
             setValues(res.data.user)
-            // console.log(res.data.user)
         }).catch((error) => {
             console.log(error.message)
         })

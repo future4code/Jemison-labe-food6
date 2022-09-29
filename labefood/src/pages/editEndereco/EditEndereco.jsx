@@ -10,7 +10,6 @@ import Input from '../../components/Input'
 import axios from 'axios'
 import { validateStreet, validateComp, validateNumber, validateNeighbourhood, validateCity, validateState } from './../../services/Regex'
 
-
 const EditEndereco = () => {
     useProtectedPage()
     const navigate = useNavigate()
@@ -66,8 +65,6 @@ const EditEndereco = () => {
         }
     }
 
-
-
     const [values, setValues] = useState({
         street: '',
         number: '',
@@ -76,8 +73,6 @@ const EditEndereco = () => {
         state: '',
         complement: '',
     })
-
-    console.log(values)
 
     useEffect(() => {
         axios.get(`${BASE_URL}/profile/address`, {
@@ -105,7 +100,7 @@ const EditEndereco = () => {
             }
         })
             .then((response) => {
-                goToPerf(navigate)
+                console.log(response.data)
             }).catch((error) => {
                 console.log(error.response.data)
             })
@@ -117,8 +112,11 @@ const EditEndereco = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        adressConfig()
-    }
+        if (streetErr === false && numberErr === false && compErr === false && neighbourhoodErr === false && cityErr === false && stateErr === false) {
+          adressConfig()
+          goToPerf(navigate)
+        }
+      }
 
     useEffect(() => {
         adressConfig()

@@ -7,12 +7,10 @@ const InputSenha = ({ label, placeholder, onChange, onClick, onMouseDown, type, 
         <FormControl sx={{ width: '100%', my: 1 }} variant="outlined">
             <InputLabel htmlFor="outlined-adornment-password">{label}</InputLabel>
             <OutlinedInput
-                error={error}
                 type={type}
                 value={value}
                 placeholder={placeholder}
                 onChange={onChange}
-                helperText='asdasdasd'
                 endAdornment={
                     <InputAdornment position="end">
                         <IconButton

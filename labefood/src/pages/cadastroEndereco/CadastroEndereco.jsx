@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Box, Container } from '@mui/material'
+import { BASE_URL } from '../../constants/url'
+import useProtectedPage from '../../hooks/useProtectedPage'
+import ButtonCustom from '../../components/ButtonCustom'
 import Titulo from '../../components/Titulo'
 import Input from '../../components/Input'
-import ButtonCustom from '../../components/ButtonCustom'
-import useProtectedPage from '../../hooks/useProtectedPage'
-import { BASE_URL } from '../../constants/url'
 import axios from 'axios'
 import { validateStreet, validateComp, validateNumber, validateNeighbourhood, validateCity, validateState } from './../../services/Regex'
 
@@ -15,7 +15,6 @@ const CadastroEndereco = () => {
   const goToLogin = (navigate) => { navigate('/login') }
 
   const token = localStorage.getItem('token')
-
 
   const [streetErr, setStreetlErr] = useState(false)
   const [streetOk, setStreetOk] = useState('')
@@ -90,7 +89,7 @@ const CadastroEndereco = () => {
       }
     })
       .then((response) => {
-        goToLogin(navigate)
+        console.log(response.data)
       }).catch((error) => {
         console.log(error.response.data)
       })
@@ -102,7 +101,10 @@ const CadastroEndereco = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    adressConfig()
+    if (streetErr === false && numberErr === false && compErr === false && neighbourhoodErr === false && cityErr === false && stateErr === false) {
+      adressConfig()
+      goToLogin(navigate)
+    }
   }
 
   useEffect(() => {
