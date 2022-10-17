@@ -1,18 +1,13 @@
+
 # Labe Food 6
 
 WebApp mobile nativo para pedidos de refeições.
-
-## Surge Link
-
-https://labefood6.surge.sh/
-
 ## Documentação de cores
 
 | Cor                 | Hexadecimal                                                      |
 | -----------------   | ---------------------------------------------------------------- |
 | Dark Peach          | ![#E86E5A](https://via.placeholder.com/10/E86E5A?text=+) #E86E5A |
 | Greyish             | ![#b8b8b8](https://via.placeholder.com/10/b8b8b8?text=+) #b8b8b8 |
-
 
 ## Autores
 
@@ -21,6 +16,7 @@ https://labefood6.surge.sh/
 - [@jenniferperucci](https://github.com/jenniferperucci)
 - [@Juan_Torterolo](https://github.com/kapthos)
 - [@Rhuan Victor](https://github.com/rhuanvictor1)
+    
 
 
 ## Screenshots
@@ -44,10 +40,12 @@ https://labefood6.surge.sh/
 ![App Screenshot](https://imgur.com/8oYOib1.jpg)
 
 
+
 ## Melhorias
 
 - Não é possível alterar a quantidade depois que o item é adicionado ao carrinho.
 - O campo de senha não permite maiores informações sobre força de senha desejada.
+
 
 
 ## Funcionalidades
